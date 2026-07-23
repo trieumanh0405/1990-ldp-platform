@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>1990 Agency · LDP CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="login" class="login-shell">
+    <section class="login-card">
+      <div class="brand-mark">19<span>90</span></div>
+      <p class="eyebrow">1990 AGENCY</p>
+      <h1>Quản trị Landing Page</h1>
+      <p class="muted">Chỉnh nội dung, xuất bản, theo dõi lead và quản lý phiên bản của hai LDP tại một nơi.</p>
+      <button id="loginBtn" class="btn btn-primary btn-wide" type="button">Đăng nhập bằng Google</button>
+      <p class="login-note">Chỉ tài khoản được cấp quyền mới có thể truy cập.</p>
+    </section>
+  </div>
+
+  <div id="app" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><span class="brand-mark small">19<span>90</span></span><span>LDP CMS</span></div>
+      <nav id="nav" aria-label="Điều hướng chính">
+        <button class="nav-item active" data-view="dashboard">Tổng quan</button>
+        <button class="nav-item" data-view="content">Nội dung LDP</button>
+        <button class="nav-item" data-view="integrations">SEO & Tích hợp</button>
+        <button class="nav-item" data-view="leads">Quản lý lead</button>
+        <button class="nav-item" data-view="versions">Lịch sử phiên bản</button>
+        <button class="nav-item" data-view="team">Đội ngũ & quyền</button>
+      </nav>
+      <div class="sidebar-foot"><span class="status-dot"></span> Firebase đang kết nối</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn menu-btn" aria-label="Mở menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <div><p class="eyebrow">CONTENT OPERATIONS</p><h2 id="viewTitle">Tổng quan</h2></div>
+        <div class="user"><div><strong id="userName">—</strong><small id="userEmail">—</small></div><button id="logoutBtn" class="btn btn-ghost" type="button">Đăng xuất</button></div>
+      </header>
+
+      <div class="workspace">
+        <section id="view-dashboard" class="view active">
+          <div class="intro"><div><h1>Chào bạn, <span id="helloName">1990</span></h1><p class="muted">Tình hình hai landing page và lead mới nhất.</p></div><button class="btn btn-primary" data-go="content">Chỉnh nội dung</button></div>
+          <div class="stats-grid">
+            <article class="stat-card"><span>Lead Tư vấn</span><strong id="statLead1">—</strong><small>trong dữ liệu gần nhất</small></article>
+            <article class="stat-card"><span>Lead Quiz</span><strong id="statLead2">—</strong><small>trong dữ liệu gần nhất</small></article>
+            <article class="stat-card"><span>Chờ xử lý</span><strong id="statPending">—</strong><small>cả hai LDP</small></article>
+            <article class="stat-card"><span>LDP đang quản lý</span><strong>2</strong><small>hoạt động độc lập</small></article>
+          </div>
+          <div class="panel"><div class="panel-head"><div><h3>Lead mới nhất</h3><p class="muted">Tổng hợp từ cả hai LDP</p></div><button class="btn btn-secondary" data-go="leads">Xem tất cả</button></div><div class="table-wrap"><table><thead><tr><th>Khách hàng</th><th>LDP</th><th>Nguồn</th><th>Thời gian</th><th>Trạng thái</th></tr></thead><tbody id="recentLeads"></tbody></table></div></div>
+        </section>
+
+        <section id="view-content" class="view">
+          <div class="toolbar sticky"><label class="field compact"><span>Landing page</span><select id="contentPage"></select></label><div class="toolbar-actions"><span id="saveState" class="save-state">Chưa có thay đổi</span><button id="saveDraftBtn" class="btn btn-secondary">Lưu nháp</button><button id="previewBtn" class="btn btn-secondary">Xem thử</button><button id="publishBtn" class="btn btn-primary">Xuất bản</button></div></div>
+          <div class="editor-grid"><div class="panel editor-panel"><div class="panel-head"><div><h3>Nội dung</h3><p class="muted">Hỗ trợ xuống dòng và thẻ &lt;strong&gt;, &lt;em&gt;, &lt;span class="red"&gt;.</p></div><input id="contentSearch" class="search" aria-label="Tìm trường nội dung" placeholder="Tìm theo tên trường…"></div><div id="contentFields" class="content-fields"><div class="empty">Đang đọc nội dung LDP…</div></div></div><div class="preview-panel"><div class="preview-head"><strong>Xem trước trực tiếp</strong><a id="openPreview" target="_blank" rel="noopener">Mở tab mới</a></div><iframe id="previewFrame" title="Xem trước landing page"></iframe></div></div>
+        </section>
+
+        <section id="view-integrations" class="view">
+          <div class="toolbar sticky"><label class="field compact"><span>Landing page</span><select id="integrationPage"></select></label><div class="toolbar-actions"><span id="integrationState" class="save-state">Chưa tải cấu hình</span><button id="saveIntegrationDraftBtn" class="btn btn-secondary" type="button">Lưu nháp</button><button id="publishIntegrationBtn" class="btn btn-primary" type="button">Xuất bản cấu hình</button></div></div>
+          <div class="settings-layout">
+            <section class="panel settings-card">
+              <div class="panel-head"><div><p class="eyebrow">HIỂN THỊ KHI CHIA SẺ</p><h3>SEO & Social</h3><p class="muted">Tiêu đề, mô tả và ảnh đại diện của trang trên Google/Facebook.</p></div><span class="status-chip safe">Public</span></div>
+              <div class="form-stack settings-form">
+                <label class="field"><span>SEO title</span><input id="seoTitle" maxlength="120" placeholder="Tiêu đề trang"></label>
+                <label class="field"><span>Meta description</span><textarea id="seoDescription" rows="4" maxlength="320" placeholder="Mô tả ngắn gọn lợi ích của landing page"></textarea><small id="seoDescriptionCount" class="field-help">0 / 160 ký tự khuyến nghị</small></label>
+                <label class="field"><span>OG image URL</span><input id="seoImage" type="url" maxlength="2000" placeholder="https://..."><small class="field-help">Ảnh ngang 1200 × 630 px, URL HTTPS công khai.</small></label>
+                <label class="field"><span>Canonical URL</span><input id="seoCanonical" type="url" maxlength="2000" placeholder="https://1990.agency/..."><small class="field-help">Có thể để trống trong giai đoạn preview; cập nhật khi gắn domain chính.</small></label>
+              </div>
+            </section>
+
+            <section class="panel settings-card">
+              <div class="panel-head"><div><p class="eyebrow">LEAD DELIVERY</p><h3>Google Sheets</h3><p class="muted">Firestore vẫn là dữ liệu gốc; Sheet là bản đồng bộ phục vụ vận hành.</p></div><label class="switch"><input id="sheetsEnabled" type="checkbox"><span></span><b>Bật</b></label></div>
+              <div class="form-stack settings-form">
+                <label class="field"><span>Link Google Sheet</span><input id="sheetDocumentUrl" type="url" maxlength="2000" placeholder="https://docs.google.com/spreadsheets/d/..."><small class="field-help">Link để team mở bảng; website không thể ghi dữ liệu chỉ bằng link này.</small></label>
+                <label class="field"><span>Tên tab nhận lead</span><input id="sheetTabName" maxlength="100" placeholder="LDP-Tư Vấn-01"></label>
+                <label class="field"><span>Apps Script Web App URL</span><input id="sheetsWebhookUrl" type="url" maxlength="2000" placeholder="https://script.google.com/macros/s/.../exec"><small class="field-help">URL nhận POST sau khi bạn Deploy Apps Script dưới quyền tài khoản sở hữu Sheet.</small></label>
+                <div id="sheetHealth" class="notice neutral">Chưa có Web App URL nên lead chưa thể đồng bộ sang Sheet.</div>
+              </div>
+            </section>
+
+            <section class="panel settings-card settings-wide">
+              <div class="panel-head"><div><p class="eyebrow">MEASUREMENT</p><h3>Tracking & Marketing</h3><p class="muted">Các ID dưới đây là mã định danh công khai. Không nhập API key hoặc access token.</p></div><label class="switch"><input id="trackingEnabled" type="checkbox"><span></span><b>Bật</b></label></div>
+              <div class="settings-grid form-stack settings-form">
+                <label class="field"><span>Google Tag Manager</span><input id="gtmId" maxlength="40" placeholder="GTM-XXXXXXX"><small class="field-help">Khuyến nghị quản lý GA4 và conversion tags qua GTM.</small></label>
+                <label class="field"><span>GA4 Measurement ID</span><input id="ga4Id" maxlength="40" placeholder="G-XXXXXXXXXX"><small class="field-help">Để trống nếu GA4 đã chạy trong GTM để tránh đếm đôi.</small></label>
+                <label class="field"><span>Meta Pixel ID</span><input id="metaPixelId" maxlength="40" inputmode="numeric" placeholder="123456789012345"></label>
+                <label class="field"><span>TikTok Pixel ID</span><input id="tiktokPixelId" maxlength="60" placeholder="CXXXXXXXXXXXXXX"></label>
+                <label class="field settings-span-2"><span>Mailchimp connected-site script URL</span><input id="mailchimpScriptUrl" type="url" maxlength="2000" placeholder="https://chimpstatic.com/mcjs-connected/js/users/...js"><small class="field-help">Chỉ chấp nhận URL thuộc chimpstatic.com. Đây không phải Mailchimp API key.</small></label>
+              </div>
+              <div class="secret-warning"><strong>Không lưu trong CMS công khai:</strong> Meta CAPI token, TikTok Events API token, Mailchimp API key, Google service-account key. Những secret này phải đặt ở backend/Secret Manager.</div>
+            </section>
+          </div>
+        </section>
+
+        <section id="view-leads" class="view">
+          <div class="toolbar"><label class="field compact"><span>Landing page</span><select id="leadPage"></select></label><label class="field compact grow"><span>Tìm kiếm</span><input id="leadSearch" placeholder="Tên, SĐT, email, công ty, UTM…"></label><label class="field compact"><span>Trạng thái</span><select id="leadStatus"><option value="">Tất cả</option><option value="new">Mới</option><option value="contacted">Đã liên hệ</option><option value="qualified">Tiềm năng</option><option value="won">Thành công</option><option value="lost">Không phù hợp</option></select></label><button id="exportBtn" class="btn btn-secondary align-end">Xuất CSV</button></div>
+          <div class="panel"><div class="panel-head"><div><h3>Danh sách lead</h3><p id="leadCount" class="muted">Đang tải…</p></div><button id="refreshLeads" class="btn btn-ghost">Làm mới</button></div><div class="table-wrap"><table><thead><tr><th>Khách hàng</th><th>Liên hệ</th><th>Công ty</th><th>UTM / Click ID</th><th>Thời gian</th><th>Trạng thái</th></tr></thead><tbody id="leadRows"></tbody></table></div></div>
+        </section>
+
+        <section id="view-versions" class="view">
+          <div class="toolbar"><label class="field compact"><span>Landing page</span><select id="versionPage"></select></label><button id="refreshVersions" class="btn btn-secondary align-end">Làm mới</button></div>
+          <div class="panel"><div class="panel-head"><div><h3>Lịch sử xuất bản</h3><p class="muted">Khôi phục sẽ đưa nội dung về bản nháp để bạn kiểm tra trước khi xuất bản lại.</p></div></div><div id="versionList" class="version-list"></div></div>
+        </section>
+
+        <section id="view-team" class="view">
+          <div class="two-col"><div class="panel"><div class="panel-head"><div><h3>Thêm thành viên</h3><p class="muted">Thành viên cần đăng nhập Google một lần để lấy UID.</p></div></div><form id="adminForm" class="form-stack"><label class="field"><span>Firebase UID</span><input name="uid" required maxlength="128" placeholder="Ví dụ: 4zX…"></label><label class="field"><span>Email</span><input name="email" type="email" required placeholder="name@1990.agency"></label><label class="field"><span>Vai trò</span><select name="role"><option value="editor">Editor — nội dung & lead</option><option value="owner">Owner — toàn quyền</option></select></label><button class="btn btn-primary" type="submit">Cấp quyền</button></form><div class="uid-box">UID của bạn: <code id="currentUid">—</code><button id="copyUid" class="btn btn-ghost" type="button">Sao chép</button></div></div><div class="panel"><div class="panel-head"><div><h3>Thành viên hiện tại</h3><p class="muted">Tắt quyền khi thành viên không còn phụ trách.</p></div></div><div id="adminList" class="admin-list"></div></div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="leadDialog"><form method="dialog" class="dialog-card"><div class="dialog-head"><div><p class="eyebrow">CHI TIẾT LEAD</p><h3 id="leadDialogTitle">—</h3></div><button class="icon-btn" value="cancel" aria-label="Đóng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="leadDetail" class="detail-grid"></div><label class="field"><span>Trạng thái</span><select id="editLeadStatus"><option value="new">Mới</option><option value="contacted">Đã liên hệ</option><option value="qualified">Tiềm năng</option><option value="won">Thành công</option><option value="lost">Không phù hợp</option></select></label><label class="field"><span>Người phụ trách</span><input id="editLeadOwner" maxlength="120"></label><label class="field"><span>Ghi chú nội bộ</span><textarea id="editLeadNotes" rows="4" maxlength="2000"></textarea></label><div class="dialog-actions"><button class="btn btn-ghost" value="cancel">Hủy</button><button id="saveLeadBtn" class="btn btn-primary" value="default" type="button">Lưu thay đổi</button></div></form></dialog>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

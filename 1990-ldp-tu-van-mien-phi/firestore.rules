@@ -1,0 +1,256 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function shortText(value, maxLength) {
+      return value is string && value.size() <= maxLength;
+    }
+
+    function isBootstrapAdmin() {
+      return request.auth != null
+        && request.auth.token.email == "manh.trieu@1990.agency";
+    }
+
+    function isAdmin() {
+      return request.auth != null && (
+        isBootstrapAdmin()
+        || (
+          exists(/databases/$(database)/documents/cms_admins/$(request.auth.uid))
+          && get(/databases/$(database)/documents/cms_admins/$(request.auth.uid)).data.active == true
+        )
+      );
+    }
+
+    function isOwner() {
+      return isBootstrapAdmin() || (
+        isAdmin()
+        && get(/databases/$(database)/documents/cms_admins/$(request.auth.uid)).data.role == "owner"
+      );
+    }
+
+    function validLeadCmsUpdate() {
+      return isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          "cms_status", "cms_owner", "cms_notes", "cms_updatedAt", "cms_updatedBy"
+        ])
+        && request.resource.data.cms_status in ["new", "contacted", "qualified", "won", "lost"]
+        && shortText(request.resource.data.cms_owner, 120)
+        && shortText(request.resource.data.cms_notes, 2000)
+        && request.resource.data.cms_updatedAt is timestamp
+        && shortText(request.resource.data.cms_updatedBy, 254);
+    }
+
+    function validLead() {
+      return request.resource.data.keys().hasOnly([
+        "lead_id",
+        "fullname",
+        "phone",
+        "company",
+        "industry",
+        "email",
+        "challenge",
+        "budget",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+        "ref",
+        "gclid",
+        "gbraid",
+        "wbraid",
+        "fbclid",
+        "fbc",
+        "fbp",
+        "ttclid",
+        "msclkid",
+        "landingPage",
+        "firstReferrer",
+        "pageUrl",
+        "referrer",
+        "userAgent",
+        "submittedAt",
+        "source"
+      ])
+      && shortText(request.resource.data.lead_id, 100)
+      && request.resource.data.lead_id.size() >= 8
+      && shortText(request.resource.data.fullname, 120)
+      && request.resource.data.fullname.size() >= 2
+      && shortText(request.resource.data.phone, 30)
+      && request.resource.data.phone.size() >= 8
+      && shortText(request.resource.data.company, 160)
+      && request.resource.data.company.size() >= 2
+      && shortText(request.resource.data.industry, 100)
+      && request.resource.data.industry.size() >= 1
+      && shortText(request.resource.data.email, 254)
+      && request.resource.data.email.size() >= 3
+      && shortText(request.resource.data.challenge, 1000)
+      && shortText(request.resource.data.budget, 100)
+      && shortText(request.resource.data.utm_source, 255)
+      && shortText(request.resource.data.utm_medium, 255)
+      && shortText(request.resource.data.utm_campaign, 255)
+      && shortText(request.resource.data.utm_content, 255)
+      && shortText(request.resource.data.utm_term, 255)
+      && shortText(request.resource.data.ref, 255)
+      && shortText(request.resource.data.gclid, 500)
+      && shortText(request.resource.data.gbraid, 500)
+      && shortText(request.resource.data.wbraid, 500)
+      && shortText(request.resource.data.fbclid, 500)
+      && shortText(request.resource.data.fbc, 500)
+      && shortText(request.resource.data.fbp, 500)
+      && shortText(request.resource.data.ttclid, 500)
+      && shortText(request.resource.data.msclkid, 500)
+      && shortText(request.resource.data.landingPage, 2000)
+      && shortText(request.resource.data.firstReferrer, 2000)
+      && shortText(request.resource.data.pageUrl, 2000)
+      && shortText(request.resource.data.referrer, 2000)
+      && shortText(request.resource.data.userAgent, 1000)
+      && request.resource.data.submittedAt is timestamp
+      && request.resource.data.source == "1990-ldp-tu-van-mien-phi";
+    }
+
+    function validQuizLead() {
+      return request.resource.data.keys().hasOnly([
+        "lead_id",
+        "form_name",
+        "angle",
+        "fullname",
+        "phone",
+        "email",
+        "company",
+        "report_focus",
+        "signal_score",
+        "weakest_dimension",
+        "dimension_scores_json",
+        "answers_json",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+        "ref",
+        "gclid",
+        "gbraid",
+        "wbraid",
+        "fbclid",
+        "fbc",
+        "fbp",
+        "ttclid",
+        "msclkid",
+        "landingPage",
+        "firstReferrer",
+        "pageUrl",
+        "referrer",
+        "userAgent",
+        "submittedAt",
+        "source"
+      ])
+      && shortText(request.resource.data.lead_id, 100)
+      && request.resource.data.lead_id.size() >= 8
+      && request.resource.data.form_name == "quiz-signal-system"
+      && request.resource.data.angle == "quiz-signal-system"
+      && shortText(request.resource.data.fullname, 120)
+      && request.resource.data.fullname.size() >= 2
+      && shortText(request.resource.data.phone, 30)
+      && request.resource.data.phone.size() >= 8
+      && shortText(request.resource.data.email, 254)
+      && request.resource.data.email.size() >= 3
+      && shortText(request.resource.data.company, 160)
+      && request.resource.data.company.size() >= 2
+      && shortText(request.resource.data.report_focus, 255)
+      && (request.resource.data.signal_score is int || request.resource.data.signal_score is float)
+      && request.resource.data.signal_score >= 0
+      && request.resource.data.signal_score <= 100
+      && shortText(request.resource.data.weakest_dimension, 100)
+      && shortText(request.resource.data.dimension_scores_json, 3000)
+      && shortText(request.resource.data.answers_json, 5000)
+      && shortText(request.resource.data.utm_source, 255)
+      && shortText(request.resource.data.utm_medium, 255)
+      && shortText(request.resource.data.utm_campaign, 255)
+      && shortText(request.resource.data.utm_content, 255)
+      && shortText(request.resource.data.utm_term, 255)
+      && shortText(request.resource.data.ref, 255)
+      && shortText(request.resource.data.gclid, 500)
+      && shortText(request.resource.data.gbraid, 500)
+      && shortText(request.resource.data.wbraid, 500)
+      && shortText(request.resource.data.fbclid, 500)
+      && shortText(request.resource.data.fbc, 500)
+      && shortText(request.resource.data.fbp, 500)
+      && shortText(request.resource.data.ttclid, 500)
+      && shortText(request.resource.data.msclkid, 500)
+      && shortText(request.resource.data.landingPage, 2000)
+      && shortText(request.resource.data.firstReferrer, 2000)
+      && shortText(request.resource.data.pageUrl, 2000)
+      && shortText(request.resource.data.referrer, 2000)
+      && shortText(request.resource.data.userAgent, 1000)
+      && request.resource.data.submittedAt is timestamp
+      && request.resource.data.source == "1990-ldp-quiz-signal-system";
+    }
+
+    function validCmsPayload(allowRestoreMarker) {
+      return request.resource.data.keys().hasOnly([
+        "content", "seo", "integrations", "updatedAt", "updatedBy", "restoredFrom"
+      ])
+      && request.resource.data.keys().hasAll(["content", "seo", "integrations", "updatedAt", "updatedBy"])
+      && (allowRestoreMarker || !("restoredFrom" in request.resource.data))
+      && request.resource.data.content is map
+      && request.resource.data.seo is map
+      && request.resource.data.integrations is map
+      && request.resource.data.updatedAt is timestamp
+      && shortText(request.resource.data.updatedBy, 254)
+      && (!("restoredFrom" in request.resource.data) || shortText(request.resource.data.restoredFrom, 128));
+    }
+
+    match /leads/{leadId} {
+      allow create: if validLead()
+        && request.resource.data.lead_id == leadId;
+      allow read: if isAdmin();
+      allow update: if validLeadCmsUpdate();
+      allow delete: if false;
+    }
+
+    match /quiz_leads/{leadId} {
+      allow create: if validQuizLead()
+        && request.resource.data.lead_id == leadId;
+      allow read: if isAdmin();
+      allow update: if validLeadCmsUpdate();
+      allow delete: if false;
+    }
+
+    match /cms_public/{pageId} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && pageId in ["ldp01", "ldp02"]
+        && validCmsPayload(false);
+      allow delete: if isOwner();
+    }
+
+    match /cms_drafts/{pageId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin()
+        && pageId in ["ldp01", "ldp02"]
+        && validCmsPayload(true);
+      allow delete: if isOwner();
+    }
+
+    match /cms_versions/{pageId}/items/{versionId} {
+      allow read, create: if isAdmin()
+        && pageId in ["ldp01", "ldp02"];
+      allow update: if false;
+      allow delete: if isOwner();
+    }
+
+    match /cms_admins/{uid} {
+      allow read: if isAdmin();
+      allow create, update: if isOwner()
+        && request.resource.data.role in ["owner", "editor"]
+        && request.resource.data.active is bool
+        && shortText(request.resource.data.email, 254);
+      allow delete: if isOwner();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

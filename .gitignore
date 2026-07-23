@@ -1,0 +1,46 @@
+# Dependencies and Firebase local state
+**/node_modules/
+**/.firebase/
+firebase-debug.log
+firebase-debug.*.log
+*.log
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*service-account*.json
+*service_account*.json
+
+# OS and editor files
+.DS_Store
+**/._*
+**/__MACOSX/
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# Codex/local working state
+.agents/
+outputs/
+_checks/
+_sheet_build/
+
+# Handoff archives and heavy local-only reference material
+*.zip
+BQ/
+
+# LDP-01 duplicate handoff source and raw/duplicate assets.
+# Production source is the root of 1990-ldp-tu-van-mien-phi/.
+1990-ldp-tu-van-mien-phi/LDP */
+1990-ldp-tu-van-mien-phi/assets bo*/
+1990-ldp-tu-van-mien-phi/Asset */
+
+# LDP-02 duplicate handoff source and raw/duplicate assets.
+# Production source is 2 - LDP Quiz 2/LDP 1990 Quiz/.
+2 - LDP Quiz 2/LDP 1990 Quiz (1)/
+2 - LDP Quiz 2/LDP 1990 Quiz/assets/logo */
+2 - LDP Quiz 2/LDP 1990 Quiz/assets/Asset */

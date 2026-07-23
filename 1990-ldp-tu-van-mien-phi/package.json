@@ -1,0 +1,19 @@
+{
+  "name": "1990-ldp-tu-van-mien-phi",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "firebase:login": "firebase login",
+    "firebase:projects": "firebase projects:list",
+    "firebase:serve": "firebase emulators:start --only hosting",
+    "firebase:deploy:rules": "firebase deploy --only firestore:rules",
+    "firebase:deploy:hosting": "firebase deploy --only hosting",
+    "firebase:deploy": "firebase deploy --only firestore:rules,hosting"
+  },
+  "devDependencies": {
+    "firebase-tools": "15.23.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

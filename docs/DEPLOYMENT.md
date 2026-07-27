@@ -2,7 +2,7 @@
 
 ## 1. Nguyên tắc
 
-- Hai LDP là hai sản phẩm độc lập.
+- Ba LDP là ba sản phẩm độc lập.
 - Mỗi lệnh deploy phải chạy trong đúng thư mục chứa `firebase.json`.
 - Trước khi deploy, kiểm tra `hosting.site`.
 - Duyệt preview trước, sau đó mới deploy production.
@@ -64,7 +64,30 @@ hosting[1990-ldp-quiz-signal]: release complete
 Deploy complete!
 ```
 
-## 7. Firestore Rules
+## 7. Preview LDP-03
+
+```powershell
+Set-Location -LiteralPath '.\1990 LDP Lead Magnet - BDS'
+& '..\1990-ldp-tu-van-mien-phi\node_modules\.bin\firebase.cmd' hosting:channel:deploy ldp03-review --expires 30d --project ldp-tu-van-mien-phi
+```
+
+## 8. Production LDP-03
+
+```powershell
+Set-Location -LiteralPath '.\1990 LDP Lead Magnet - BDS'
+& '..\1990-ldp-tu-van-mien-phi\node_modules\.bin\firebase.cmd' deploy --only hosting --project ldp-tu-van-mien-phi
+```
+
+Kết quả mong đợi:
+
+```text
+hosting[1990-ldp-lead-magnet-bds]: release complete
+Deploy complete!
+```
+
+Lưu ý: Hosting của LDP-03 đã hoạt động nhưng form vẫn ở chế độ demo cho đến khi kết nối Firestore/Google Sheet hoặc Mailchimp.
+
+## 9. Firestore Rules
 
 Chỉ chạy khi đã review thay đổi rules:
 
@@ -73,7 +96,7 @@ Set-Location -LiteralPath '.\1990-ldp-tu-van-mien-phi'
 .\node_modules\.bin\firebase.cmd deploy --only firestore:rules --project ldp-tu-van-mien-phi
 ```
 
-## 8. CMS
+## 10. CMS
 
 CMS hiện có thể tiếp tục dùng preview trong giai đoạn hoàn thiện. Khi chốt production:
 
@@ -82,9 +105,9 @@ Set-Location -LiteralPath '.\1990-ldp-cms'
 & '..\1990-ldp-tu-van-mien-phi\node_modules\.bin\firebase.cmd' deploy --only hosting --project ldp-tu-van-mien-phi
 ```
 
-Sau này có thể gắn `cms.1990.agency` mà không ảnh hưởng hai LDP.
+Sau này có thể gắn `cms.1990.agency` mà không ảnh hưởng ba LDP.
 
-## 9. Checklist sau deploy
+## 11. Checklist sau deploy
 
 Kiểm tra riêng từng domain:
 
@@ -99,7 +122,7 @@ Kiểm tra riêng từng domain:
 9. Chính sách bảo mật và điều khoản mở được.
 10. Xóa lead QA sau khi xác nhận.
 
-## 10. Rollback
+## 12. Rollback
 
 Trong Firebase Console:
 

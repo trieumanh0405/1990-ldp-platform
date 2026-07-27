@@ -1,0 +1,24 @@
+name: LDP-03 Production
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "1990 LDP Lead Magnet - BDS/**"
+      - ".github/workflows/ldp03-production.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy LDP-03 to Firebase Hosting live channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LDP_TU_VAN_MIEN_PHI }}
+          projectId: ldp-tu-van-mien-phi
+          entryPoint: "1990 LDP Lead Magnet - BDS"
+          channelId: live

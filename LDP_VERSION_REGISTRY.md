@@ -4,7 +4,7 @@ Tài liệu này dùng để phân biệt các landing page độc lập và cá
 
 ## Quy ước
 
-- `LDP-01`, `LDP-02`: hai landing page/sản phẩm độc lập.
+- `LDP-01`, `LDP-02`, `LDP-03`: ba landing page/sản phẩm độc lập.
 - `v1`, `v2`: các phiên bản chỉnh sửa của cùng một landing page.
 - Ví dụ: `LDP-02/v1` là bản đầu tiên của Quiz; `LDP-02/v2` là lần sửa tiếp theo của chính Quiz.
 - Mỗi LDP có Hosting site, preview channel và collection lead riêng.
@@ -51,10 +51,29 @@ Tài liệu này dùng để phân biệt các landing page độc lập và cá
 - Production: Đã deploy ngày `23/07/2026`
 - QA production: Quiz, form, Google Sheet và URL có UTM/click ID đã kiểm tra thành công
 
+## LDP-03 — Lead Magnet Bất động sản
+
+- Mã trao đổi: `LDP-03`
+- Phiên bản hiện tại: `LDP-03/v1`
+- Source: `D:\Công việc\1990 Agency\1990 SEM - LDP\1990 LDP Lead Magnet - BDS`
+- Firebase project: `ldp-tu-van-mien-phi`
+- Hosting site: `1990-ldp-lead-magnet-bds`
+- Hosting URL: `https://1990-ldp-lead-magnet-bds.web.app`
+- Custom domain: Chưa chốt
+- Firestore collection: Chưa kết nối; dự kiến `bds_leads`
+- Lead source: Chưa kết nối; dự kiến `1990-ldp-lead-magnet-bds`
+- Google Sheet: Chưa kết nối; dự kiến tab `LDP-BDS-03`
+- CMS page ID: Chưa kết nối; dự kiến `ldp03`
+- Mailchimp: Các thông số `U`, `ID`, `DC` đang trống; form chỉ hiện xác nhận demo và chưa gửi/lưu lead
+- Tracking/attribution: Chưa tích hợp GTM/GA4/Meta/TikTok, UTM hoặc click ID
+- Trạng thái: `HOSTING PRODUCTION / FORM DEMO`
+- Production: Đã deploy ngày `27/07/2026`
+- QA production: Nội dung, asset, desktop/mobile responsive và màn hình cảm ơn demo đã kiểm tra thành công; không có lỗi console
+
 ## Mẫu báo lỗi
 
 ```text
-Landing page: LDP-01 hoặc LDP-02
+Landing page: LDP-01, LDP-02 hoặc LDP-03
 Phiên bản: v1/v2/...
 Thiết bị: Desktop/iPhone/Android
 Trình duyệt: Chrome/Safari/Edge

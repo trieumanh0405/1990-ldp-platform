@@ -1,6 +1,6 @@
 # 1990 LDP Platform
 
-Repository nội bộ quản lý hệ thống landing page của 1990 Agency, gồm **hai LDP độc lập**, một CMS dùng chung, Firebase/Firestore và cầu nối Google Sheets.
+Repository nội bộ quản lý hệ thống landing page của 1990 Agency, gồm **ba LDP độc lập**, một CMS dùng chung, Firebase/Firestore và cầu nối Google Sheets.
 
 > Repository này phải được giữ ở chế độ **Private**. Không đưa API key bí mật, access token, service-account key hoặc dữ liệu lead thật vào Git.
 
@@ -10,16 +10,17 @@ Repository nội bộ quản lý hệ thống landing page của 1990 Agency, g�
 |---|---|---|---|---|---|---|
 | `LDP-01` | Tư vấn miễn phí | `1990-ldp-tu-van-mien-phi/` | `ldp-tu-van-mien-phi` | [tuvan.1990.agency](https://tuvan.1990.agency) | `leads` | `LDP-Tư Vấn-01` |
 | `LDP-02` | Quiz Signal System | `2 - LDP Quiz 2/LDP 1990 Quiz/` | `1990-ldp-quiz-signal` | [quizsignal.1990.agency](https://quizsignal.1990.agency) | `quiz_leads` | `LDP-Quiz-02` |
+| `LDP-03` | Lead Magnet Bất động sản | `1990 LDP Lead Magnet - BDS/` | `1990-ldp-lead-magnet-bds` | [Firebase Hosting](https://1990-ldp-lead-magnet-bds.web.app) | Chưa kết nối | Chưa kết nối |
 
-Hai LDP không phải phiên bản 1/2 của cùng một trang. Chúng là hai sản phẩm riêng, có form, collection lead, Hosting site và domain riêng.
+Ba LDP không phải các phiên bản của cùng một trang. Chúng là ba sản phẩm riêng, có source và Hosting site riêng. LDP-01/02 đã có pipeline lead hoàn chỉnh; LDP-03 mới hoàn tất bước Hosting và còn ở chế độ form demo.
 
 ## Thành phần dùng chung
 
 | Thành phần | Thư mục | Vai trò |
 |---|---|---|
-| CMS nội bộ | `1990-ldp-cms/` | Quản lý nội dung, cấu hình tích hợp, lead, phiên bản và quyền truy cập của cả hai LDP |
+| CMS nội bộ | `1990-ldp-cms/` | Hiện quản lý nội dung, cấu hình tích hợp, lead, phiên bản và quyền truy cập của LDP-01/02 |
 | Google Sheets bridge | `google-apps-script/` | Nhận lead và phân phối sang đúng tab Google Sheet |
-| Firestore Rules | `1990-ldp-tu-van-mien-phi/firestore.rules` | Bảo vệ cấu hình CMS và hai collection lead |
+| Firestore Rules | `1990-ldp-tu-van-mien-phi/firestore.rules` | Bảo vệ cấu hình CMS và các collection lead đã tích hợp |
 | Tài liệu vận hành | `docs/` và các file hướng dẫn ở root | Kiến trúc, deploy, kiểm thử, bảo mật và lịch sử phiên bản |
 
 CMS dùng chung không làm hai LDP trộn dữ liệu. Mỗi page ID được ánh xạ tới collection và cấu hình riêng:
@@ -27,7 +28,8 @@ CMS dùng chung không làm hai LDP trộn dữ liệu. Mỗi page ID được �
 ```text
 CMS chung
 ├── ldp01 → LDP Tư vấn miễn phí → leads → LDP-Tư Vấn-01
-└── ldp02 → LDP Quiz Signal     → quiz_leads → LDP-Quiz-02
+├── ldp02 → LDP Quiz Signal     → quiz_leads → LDP-Quiz-02
+└── ldp03 → Chưa tích hợp CMS/Firestore/Google Sheet
 ```
 
 ## Luồng dữ liệu lead
@@ -36,6 +38,7 @@ CMS chung
 flowchart LR
     A["LDP-01: tuvan.1990.agency"] --> C["Firestore: leads"]
     B["LDP-02: quizsignal.1990.agency"] --> D["Firestore: quiz_leads"]
+    J["LDP-03: Lead Magnet BĐS"] -. "chưa tích hợp lead" .-> K["Form demo"]
     C --> E["Google Apps Script bridge"]
     D --> E
     E --> F["Sheet: LDP-Tư Vấn-01"]
@@ -83,6 +86,27 @@ Lead có thể chứa thông tin form, URL trang, referrer, UTM và click ID nh�
 │   └── tracking.js
 └── firebase.json
 ```
+
+### LDP-03 — Lead Magnet Bất động sản
+
+```text
+1990 LDP Lead Magnet - BDS/
+├── index.html
+├── assets/
+├── .firebaserc
+└── firebase.json
+```
+
+Trạng thái hiện tại: đã deploy Firebase Hosting; form chỉ hiện xác nhận demo vì thông số Mailchimp đang để trống. Chưa có Firestore, Google Sheet, UTM/click ID, CMS hoặc tracking thực tế.
+
+### GitHub Actions cho LDP-03
+
+LDP-03 có hai workflow tại `.github/workflows/`:
+
+- `ldp03-preview.yml`: khi có thay đổi LDP-03 trong Pull Request, Firebase tạo Preview URL có thời hạn 14 ngày và ghi URL vào Pull Request.
+- `ldp03-production.yml`: sau khi Pull Request được merge vào `main`, Firebase tự deploy bản production vào Hosting site `1990-ldp-lead-magnet-bds`.
+
+Các workflow dùng GitHub Secret `FIREBASE_SERVICE_ACCOUNT_LDP_TU_VAN_MIEN_PHI`. Secret này là service account Firebase, không được copy vào source code hoặc gửi qua chat.
 
 ### CMS
 
@@ -136,6 +160,13 @@ Set-Location -LiteralPath '.\2 - LDP Quiz 2\LDP 1990 Quiz'
 & '..\..\1990-ldp-tu-van-mien-phi\node_modules\.bin\firebase.cmd' deploy --only hosting --project ldp-tu-van-mien-phi
 ```
 
+### Production LDP-03
+
+```powershell
+Set-Location -LiteralPath '.\1990 LDP Lead Magnet - BDS'
+& '..\1990-ldp-tu-van-mien-phi\node_modules\.bin\firebase.cmd' deploy --only hosting --project ldp-tu-van-mien-phi
+```
+
 Xem quy trình preview, production, rollback và checklist chi tiết tại [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Kiểm thử production
@@ -147,6 +178,8 @@ Ngày 23/07/2026, cả hai LDP đã được kiểm tra end-to-end:
 - URL có `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `gclid`, `fbclid` và `ttclid`.
 
 Lead QA được đặt tên bắt đầu bằng `TEST CODEX PRODUCTION` để dễ tìm và xóa.
+
+Ngày 27/07/2026, LDP-03 được kiểm tra Hosting trên desktop và mobile: nội dung tiếng Việt, ảnh, responsive và luồng xác nhận form demo đều hoạt động; chưa kiểm thử lead end-to-end vì chưa tích hợp nơi nhận dữ liệu.
 
 ## Tracking và tích hợp
 
@@ -177,7 +210,7 @@ Hiện production vẫn cần điền GTM ID nếu muốn bật tracking qua GTM
 
 ## Quy tắc làm việc
 
-1. Luôn gọi đúng `LDP-01` hoặc `LDP-02` khi yêu cầu sửa/deploy.
+1. Luôn gọi đúng `LDP-01`, `LDP-02` hoặc `LDP-03` khi yêu cầu sửa/deploy.
 2. Dùng preview channel để duyệt trước khi deploy production.
 3. Không sửa trực tiếp dữ liệu production nếu chưa có bản sao hoặc lịch sử CMS.
 4. Không commit lead thật, file export CSV, secret hoặc credential.

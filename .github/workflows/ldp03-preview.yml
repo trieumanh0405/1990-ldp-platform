@@ -1,0 +1,26 @@
+name: LDP-03 Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "1990 LDP Lead Magnet - BDS/**"
+      - ".github/workflows/ldp03-preview.yml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy preview to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LDP_TU_VAN_MIEN_PHI }}
+          projectId: ldp-tu-van-mien-phi
+          entryPoint: "1990 LDP Lead Magnet - BDS"
+          expires: 14d

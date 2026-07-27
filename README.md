@@ -99,6 +99,15 @@ Lead có thể chứa thông tin form, URL trang, referrer, UTM và click ID nh�
 
 Trạng thái hiện tại: đã deploy Firebase Hosting; form chỉ hiện xác nhận demo vì thông số Mailchimp đang để trống. Chưa có Firestore, Google Sheet, UTM/click ID, CMS hoặc tracking thực tế.
 
+### GitHub Actions cho LDP-03
+
+LDP-03 có hai workflow tại `.github/workflows/`:
+
+- `ldp03-preview.yml`: khi có thay đổi LDP-03 trong Pull Request, Firebase tạo Preview URL có thời hạn 14 ngày và ghi URL vào Pull Request.
+- `ldp03-production.yml`: sau khi Pull Request được merge vào `main`, Firebase tự deploy bản production vào Hosting site `1990-ldp-lead-magnet-bds`.
+
+Các workflow dùng GitHub Secret `FIREBASE_SERVICE_ACCOUNT_LDP_TU_VAN_MIEN_PHI`. Secret này là service account Firebase, không được copy vào source code hoặc gửi qua chat.
+
 ### CMS
 
 ```text

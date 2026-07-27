@@ -8,6 +8,7 @@ on:
       - ".github/workflows/ldp03-preview.yml"
 
 permissions:
+  checks: write
   contents: read
   pull-requests: write
 

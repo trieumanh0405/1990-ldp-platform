@@ -60,13 +60,13 @@ Tài liệu này dùng để phân biệt các landing page độc lập và cá
 - Hosting site: `1990-ldp-lead-magnet-bds`
 - Hosting URL: `https://1990-ldp-lead-magnet-bds.web.app`
 - Custom domain: Chưa chốt
-- Firestore collection: Chưa kết nối; dự kiến `bds_leads`
-- Lead source: Chưa kết nối; dự kiến `1990-ldp-lead-magnet-bds`
-- Google Sheet: Chưa kết nối; dự kiến tab `LDP-BDS-03`
-- CMS page ID: Chưa kết nối; dự kiến `ldp03`
-- Mailchimp: Các thông số `U`, `ID`, `DC` đang trống; form chỉ hiện xác nhận demo và chưa gửi/lưu lead
-- Tracking/attribution: Chưa tích hợp GTM/GA4/Meta/TikTok, UTM hoặc click ID
-- Trạng thái: `HOSTING PRODUCTION / FORM DEMO`
+- Firestore collection: `bds_leads`
+- Lead source: `1990-ldp-lead-magnet-bds`
+- Google Sheet: Đã kết nối Web App; tab đích `LDP-BDS-03`
+- CMS page ID: `ldp03`
+- Mailchimp: Các thông số `U`, `ID`, `DC` cấu hình qua CMS
+- Tracking/attribution: Đã tích hợp GTM, Firebase SDK, script thu thập UTM/Click ID
+- Trạng thái: `ĐÃ NỐI CMS / CHỜ DEPLOY`
 - Production: Đã deploy ngày `27/07/2026`
 - QA production: Nội dung, asset, desktop/mobile responsive và màn hình cảm ơn demo đã kiểm tra thành công; không có lỗi console
 

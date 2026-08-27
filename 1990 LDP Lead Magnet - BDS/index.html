@@ -11,11 +11,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap&subset=vietnamese" rel="stylesheet">
 <script>
 window.LP1990 = {
+  CMS_PAGE_ID: 'ldp03',
+  GTM_ID: '',
+  SHEETS_WEBHOOK_URL: 'https://script.google.com/macros/s/AKfycbzyXLuVHIhXv9yDOGcsuNoX6mNnCGsmYPIrFw3fFFJuhHflAoUyuKj7_8ycPr495wQr/exec',
+  SHEETS_ENABLED: true,
+  SHEET_TAB_NAME: 'LDP-BDS-03',
+  MAILCHIMP_SCRIPT_URL: '',
+  FIREBASE_CONFIG: {
+    apiKey: 'AIzaSyCNNEDtIDOIGmgj22eCO5MCQWyp-0P-DCY',
+    authDomain: 'ldp-tu-van-mien-phi.firebaseapp.com',
+    projectId: 'ldp-tu-van-mien-phi',
+    storageBucket: 'ldp-tu-van-mien-phi.firebasestorage.app',
+    messagingSenderId: '246499426468',
+    appId: '1:246499426468:web:be4a04ce2a39a8a288a631',
+    measurementId: 'G-FDHWF5374K'
+  },
   MAILCHIMP_U:'', MAILCHIMP_ID:'', MAILCHIMP_DC:'',
-  GA4_ID:'G-XXXXXXXXXX', GADS_ID:'AW-XXXXXXXXXX', META_PIXEL_ID:'', TIKTOK_PIXEL_ID:'',
   BRAND:'1990 Agency', EMAIL:'hello@1990.agency', PHONE:'028 6681 8981', ADDR:'84 Huỳnh Văn Bánh, P. Cầu Kiệu, TP. HCM'
 };
 </script>
+<script src="js/tracking.js"></script>
 <style>
 :root{
   --red:#EC2024;--red-dark:#C41A1D;--red-glow:rgba(236,32,36,.30);
@@ -384,6 +399,12 @@ footer{background:var(--dark);padding:44px 0}
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
+<script src="js/attribution.js"></script>
+<script src="js/firebase-init.js"></script>
+<script src="js/cms-loader.js"></script>
+<script src="js/lead-submit.js"></script>
 <script>
 (function(){
   "use strict";
@@ -480,9 +501,35 @@ footer{background:var(--dark);padding:44px 0}
     if(form.company.value.trim().length<2){err(form.company,true);ok=false;}else err(form.company,false);
     if(!ok)return;
     var data={fullname:form.fullname.value,phone:form.phone.value,email:form.email.value,company:form.company.value};
-    track('generate_lead',{document:'playbook-bds'});
     var btn=form.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Đang gửi...';
-    mailchimpSubmit(data,function(result){form.style.display='none';document.getElementById('thanks').classList.add('on');if(result==='placeholder'){document.getElementById('thanksMsg').textContent='Đã ghi nhận (chế độ demo). Khi nối Mailchimp, Playbook sẽ tự động gửi tới email của bạn.';}});
+    
+    // Attempt tracking
+    if(window.LP1990Tracking && window.LP1990Tracking.trackLead) {
+      window.LP1990Tracking.trackLead(data);
+    } else {
+      track('generate_lead',{document:'playbook-bds'});
+    }
+
+    // Capture URL params for tracking (attribution)
+    if(window.LP1990Attribution) {
+      data = Object.assign({}, data, window.LP1990Attribution.getTrackingData());
+    }
+
+    // Submit to Firebase & Sheets
+    if(window.LP1990Lead) {
+      window.LP1990Lead.submit(data).then(function(res) {
+        // Then submit to Mailchimp
+        mailchimpSubmit(data,function(result){
+          form.style.display='none';document.getElementById('thanks').classList.add('on');
+          if(result==='placeholder'){document.getElementById('thanksMsg').textContent='Đã ghi nhận (chế độ demo). Khi nối Mailchimp, Playbook sẽ tự động gửi tới email của bạn.';}
+        });
+      });
+    } else {
+      mailchimpSubmit(data,function(result){
+        form.style.display='none';document.getElementById('thanks').classList.add('on');
+        if(result==='placeholder'){document.getElementById('thanksMsg').textContent='Đã ghi nhận (chế độ demo). Khi nối Mailchimp, Playbook sẽ tự động gửi tới email của bạn.';}
+      });
+    }
   });
 })();
 </script>

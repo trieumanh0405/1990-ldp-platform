@@ -23,6 +23,13 @@ window.CMS1990 = {
       sheetUrl: "https://docs.google.com/spreadsheets/d/1d5ISO-FQgSk2qCCYPbsTw7BfDPhos0BV5ezQdxgcfrE/edit?gid=1132881559#gid=1132881559",
       sheetTab: "LDP-Quiz-02",
       sheetWebhookUrl: "https://script.google.com/macros/s/AKfycbzyXLuVHIhXv9yDOGcsuNoX6mNnCGsmYPIrFw3fFFJuhHflAoUyuKj7_8ycPr495wQr/exec"
+    },
+    ldp03: {
+      name: "LDP Playbook BĐS", short: "Playbook", collection: "bds_leads",
+      preview: "https://1990-ldp-lead-magnet-bds.web.app",
+      sheetUrl: "https://docs.google.com/spreadsheets/d/1d5ISO-FQgSk2qCCYPbsTw7BfDPhos0BV5ezQdxgcfrE/edit?gid=1132881559#gid=1132881559",
+      sheetTab: "LDP-BDS-03",
+      sheetWebhookUrl: "https://script.google.com/macros/s/AKfycbzyXLuVHIhXv9yDOGcsuNoX6mNnCGsmYPIrFw3fFFJuhHflAoUyuKj7_8ycPr495wQr/exec"
     }
   }
 };
